@@ -3778,13 +3778,21 @@ var context = new AudioContext();
         if (adsParam) {
             saveAdsParam(adsParam);
         }
-        const namaTamu = urlParams.get('to');
+        const namaTamu = urlParams.get('to'); 
 
         if (namaTamu) {
-        const elemenNama = document.getElementById('nama-tamu');
-        if (elemenNama) {
-            // decodeURIComponent berfungsi mengubah %20 menjadi spasi normal
-            elemenNama.innerText = decodeURIComponent(namaTamu) + " & Partner";
+            const elemenNama = document.getElementById('nama-tamu');
+            if (elemenNama) {
+                // 1. Ambil namanya dan ubah ke teks normal (decode spasi)
+                const namaNormal = decodeURIComponent(namaTamu);
+
+                // 2. Fungsi untuk mengubah setiap awal kata menjadi huruf besar (Capitalize)
+                const namaKapital = namaNormal.replace(/\b\w/g, function(karakter) {
+                    return karakter.toUpperCase();
+                });
+
+                // 3. Gabungkan nama yang sudah rapi dengan teks " & Partner"
+                elemenNama.innerText = namaKapital + " & Partner";
             }
         }
 
