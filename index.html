@@ -3,18 +3,21 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Redirecting...</title>
-
-    <meta http-equiv="Refresh" content="0; URL=indoinvite.com/s/1369801/undangan/indexbcb8.html">
+    <title>Menuju Undangan...</title>
 
     <script type="text/javascript">
-        window.location.href = "indoinvite.com/s/1369801/undangan/indexbcb8.html";
+        // 1. Ambil semua parameter yang diketik di link pendek (misal: ?to=Farid)
+        const currentQueryString = window.location.search;
+
+        // 2. Tentukan jalur ke folder undangan asli di dalam
+        const folderUndangan = "indoinvite.com/s/1369801/undangan/indexbcb8.html";
+
+        // 3. Gabungkan folder dalam dengan parameter nama tamunya, lalu pindahkan halaman
+        window.location.href = folderUndangan + currentQueryString;
     </script>
 </head>
 <body style="background: #ccd; font-family: sans-serif; text-align: center; padding-top: 50px;">
-    
-    <h2>Menuju Halaman Undangan...</h2>
-    <p>Jika halaman tidak berpindah otomatis, <a href="indoinvite.com/s/1369801/undangan/indexbcb8.html" style="font-weight: bold; color: #448;">Klik di Sini</a>.</p>
-
+    <h2>Memuat Halaman Undangan...</h2>
+    <p>Jika halaman tidak berpindah otomatis, <a href="indoinvite.com/s/1369801/undangan/indexbcb8.html">Klik di Sini</a>.</p>
 </body>
 </html>
