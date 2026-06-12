@@ -2772,14 +2772,12 @@ var context = new AudioContext();
                                 <div class="panggilan_mempelai_cli" id="c-panggilan-mempelai-id">
         <h1 id="aca-fun-h1-id1" class="mempelai-eg" data-aos="fade-down"><span class="nama_panggilan_pria_gr">Rizki</span> & <span class="nama_panggilan_wanita_gr">Bila</span></h1>
     </div>
-     
-        
-                                <br>
-                <p id="awal-fun-p-id1" style="color: #e3b04c !important; font-size: 15px;">
-                    Kepada
+    <br>
+        <p id="awal-fun-p-id1" style="color: #e3b04c !important; font-size: 15px;">
+                    Kepada          
                 </p>
-                <br>
-                <p style="color: #e3b04c !important; font-size: 20px; margin-top: -35px;" id="kpd">
+                <p style="color: #e3b04c !important; font-size: 20px; margin-top: 5px; margin-bottom: 8px">
+                    Farid dan <span id="nama-tamu">Partner</span>
                 </p>
                 <p data-aos="zoom-in" id="awal-fun-p-id2"
                     style="margin-top: 14.4px; font-size: 10px; font-weight: bold; width: 85%; margin: 0 auto; padding-bottom: 15px; color: #e3b04c !important;">
@@ -6241,6 +6239,17 @@ applyStylesFromJson(jsonStyleCustomTema.style);
       },
     });
   }
+    // 1. Ambil data parameter dari URL browser
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // 2. Cari parameter yang bernama 'to'
+    const namaTamu = urlParams.get('to');
+    
+    // 3. Jika parameter 'to' ada isinya, ganti tulisan 'Partner' dengan nama tersebut
+    if (namaTamu) {
+        // Mengubah teks dan merapikan format huruf (menghapus tanda minus/plus jika ada)
+        document.getElementById('nama-tamu').innerText = decodeURIComponent(namaTamu);
+    }
 
   function getYTVideoId(url) {
     let videoId = "";
@@ -6282,6 +6291,8 @@ applyStylesFromJson(jsonStyleCustomTema.style);
         
     </div>
 </body>
+
+
 
 
 <!-- Mirrored from indoinvite.com/s/1369801/undangan/?kpd=Wanda+dan+Partner by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Jun 2026 15:24:02 GMT -->
