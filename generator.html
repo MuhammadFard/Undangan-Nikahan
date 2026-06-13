@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Banyak Undangan - Rizki & Bila</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a5568;
+        }
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+        }
+        textarea:focus {
+            border-color: #3182ce;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+        }
+        button.btn-primary {
+            width: 100%;
+            padding: 14px;
+            background-color: #3182ce;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button.btn-primary:hover {
+            background-color: #2b6cb0;
+        }
+        .result-container {
+            margin-top: 30px;
+            display: none;
+        }
+        .tamu-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .tamu-header {
+            font-weight: bold;
+            font-size: 16px;
+            color: #2d3748;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 5px;
+        }
+        .link-preview {
+            font-size: 13px;
+            color: #4a5568;
+            background: #edf2f7;
+            padding: 8px;
+            border-radius: 4px;
+            word-break: break-all;
+            margin-bottom: 10px;
+        }
+        .btn-action-group {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-action {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            color: white;
+            transition: opacity 0.2s;
+        }
+        .btn-action:hover {
+            opacity: 0.9;
+        }
+        .btn-copy {
+            background-color: #38a169;
+        }
+        .btn-wa {
+            background-color: #25d366;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Generator Massal WhatsApp Undangan</h2>
+    <div class="subtitle">Rizki & Bila</div>
+    
+    <div class="form-group">
+        <label for="daftarTamu">Masukkan Nama-Nama Tamu (Satu Nama Per Baris):</label>
+        <textarea id="daftarTamu" rows="8" placeholder="Contoh:&#10;bapak budi&#10;dewi anjani&#10;ahmad suparman" autofocus></textarea>
+    </div>
+    
+    <button class="btn-primary" onclick="generateSemuaUndangan()">Generate Semua Link & Pesan</button>
+    
+    <div id="resultContainer" class="result-container">
+        <label id="totalTamuLabel">Daftar Hasil Link Sebar:</label>
+        <div id="daftarHasil"></div>
+    </div>
+</div>
+
+<script>
+    // Penampung data pesan teks agar bisa diakses fungsi copy & kirim
+    let dataPesanSemua = {};
+
+    function generateSemuaUndangan() {
+        const textInput = document.getElementById('daftarTamu').value.trim();
+        if (!textInput) {
+            alert('Silakan masukkan minimal satu nama tamu.');
+            return;
+        }
+
+        // Memecah teks per baris baru, hapus spasi di ujung, dan buang baris yang kosong
+        const listNama = textInput.split('\n')
+                                  .map(nama => nama.trim())
+                                  .filter(nama => nama.length > 0);
+
+        const daftarHasilDiv = document.getElementById('daftarHasil');
+        daftarHasilDiv.innerHTML = ''; // Kosongkan daftar lama
+        dataPesanSemua = {}; // Reset penampung teks
+
+        listNama.forEach((namaOriginal, index) => {
+            // 1. Kapitalisasi Otomatis Huruf Pertama Tiap Kata
+            const namaKapital = namaOriginal.replace(/\b\w/g, function(char) {
+                return char.toUpperCase();
+            });
+
+            // 2. Buat URL Pendek Terintegrasi GitHub Pages Anda
+            const namaEncoded = encodeURIComponent(namaKapital);
+            const linkUndangan = `https://muhammadfard.github.io/Undangan-Nikahan/?to=${namaEncoded}`;
+
+            // 3. Susun Format Pesan WhatsApp Sesuai Template Anda
+            let pesanHasil = `Yth. Bapak/Ibu/Saudara/i\n`;
+            pesanHasil += `*${namaKapital}*\n`;
+            pesanHasil += `Di Tempat\n`;
+            pesanHasil += `-----------\n`;
+            pesanHasil += `Dengan segala kerendahan hati , kami mengundang Bapak/Ibu/Saudara/i dan teman-teman untuk menghadiri acara,\n`;
+            pesanHasil += `===========\n`;
+            pesanHasil += `*Rizki & Bila*\n`;
+            pesanHasil += `===========\n`;
+            pesanHasil += `Pada: Resepsi\n`;
+            pesanHasil += `🗓️ Tanggal: 27-06-2026\n`;
+            pesanHasil += `🕛 Pukul: 10:00 - 16:00\n`;
+            pesanHasil += `📍 Lokasi: UPGRISBA Convention Center (UPCC) Jl. Gajah Mada Dalam, Kec. Nanggalo Kota Padang - Sumatera Barat\n\n`;
+            pesanHasil += `Link undangan bisa diakses lengkap di:\n`;
+            pesanHasil += `${linkUndangan}\n\n`;
+            pesanHasil += `Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir di acara kami\n`;
+            pesanHasil += `Mohon maaf perihal undangan hanya di bagikan melalui pesan ini\n`;
+            pesanHasil += `Terisa kasih banyak atas perhatiannya\n\n\n`;
+            pesanHasil += `_Note:_\n`;
+            pesanHasil += `_Untuk mendapatkan hasil yg bagus, harap buka melalui google chrome terupdate dan matikan mode gelap dari hp_`;
+
+            // Simpan teks mentah ke dalam objek memori berdasarkan ID index
+            dataPesanSemua[index] = pesanHasil;
+
+            // 4. Render Tampilan Item List ke Layar HTML
+            const itemHTML = `
+                <div class="tamu-item">
+                    <div class="tamu-header">
+                        <span>${index + 1}. ${namaKapital}</span>
+                    </div>
+                    <div class="link-preview">${linkUndangan}</div>
+                    <div class="btn-action-group">
+                        <button class="btn-action btn-copy" onclick="copySingle(${index})">Salin Pesan</button>
+                        <button class="btn-action btn-wa" onclick="kirimWASingle(${index})">Kirim WA</button>
+                    </div>
+                </div>
+            `;
+            daftarHasilDiv.innerHTML += itemHTML;
+        });
+
+        // Tampilkan Container Utama Hasil
+        document.getElementById('totalTamuLabel').innerText = `Berhasil membuat ${listNama.length} link sebar undangan:`;
+        document.getElementById('resultContainer').style.display = 'block';
+    }
+
+    // Fungsi Aksi Tombol Salin Per Nama
+    function copySingle(id) {
+        const teks = dataPesanSemua[id];
+        navigator.clipboard.writeText(teks).then(() => {
+            alert('Pesan undangan berhasil disalin ke clipboard!');
+        }).catch(err => {
+            alert('Gagal menyalin otomatis, silakan salin secara manual.');
+        });
+    }
+
+    // Fungsi Aksi Tombol Kirim WA Per Nama
+    function kirimWASingle(id) {
+        const teks = dataPesanSemua[id];
+        const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(teks)}`;
+        window.open(waUrl, '_blank');
+    }
+</script>
+
+</body>
+</html>
